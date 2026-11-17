@@ -2,6 +2,8 @@
 
 namespace JeffersonGoncalves\Gdpr;
 
+use JeffersonGoncalves\Gdpr\Commands\InventoryCommand;
+use JeffersonGoncalves\Gdpr\Commands\KAnonymityCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -10,9 +12,13 @@ class GdprServiceProvider extends PackageServiceProvider
     public function configurePackage(Package $package): void
     {
         $package
-            ->name('laravel-gdpr')
+            ->name('gdpr')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigrations();
+            ->hasCommands([InventoryCommand::class, KAnonymityCommand::class]);
+    }
+
+    public function packageRegistered(): void
+    {
+        $this->app->singleton(Gdpr::class);
     }
 }
